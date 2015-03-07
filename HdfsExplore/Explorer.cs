@@ -277,7 +277,7 @@ namespace HdfsExplore
             //create column header for ListView
             lvFiles.Columns.Add("Name", 150, System.Windows.Forms.HorizontalAlignment.Left);
             lvFiles.Columns.Add("Size", 75, System.Windows.Forms.HorizontalAlignment.Right);
-            lvFiles.Columns.Add("Created", 140, System.Windows.Forms.HorizontalAlignment.Left);
+            lvFiles.Columns.Add("Access", 140, System.Windows.Forms.HorizontalAlignment.Left);
             lvFiles.Columns.Add("Modified", 140, System.Windows.Forms.HorizontalAlignment.Left);
 
         }
@@ -362,23 +362,21 @@ namespace HdfsExplore
             {
                 var directoryStatus = await client.GetDirectoryStatus(getFullPath(nodeCurrent.FullPath));
 
-
-
                 try
                 {
-                    var Files = directoryStatus.Files;// Directory.GetFiles(getFullPath(nodeCurrent.FullPath));
+                    var files = directoryStatus.Files;// Directory.GetFiles(getFullPath(nodeCurrent.FullPath));
                     string stringFileName = "";
                     string dtCreateDate, dtModifyDate;
                     Int64 lFileSize = 0;
 
                     //loop throught all files
-                    foreach (var stringFile in Files)
+                    foreach (var file in files)
                     {
-                        stringFileName = stringFile.PathSuffix;
+                        stringFileName = file.PathSuffix;
                         //FileInfo objFileSize = new FileInfo(stringFileName);
-                        lFileSize = stringFile.Length;
-                        dtCreateDate = stringFile.AccessTime.ToString(); //GetCreationTime(stringFileName);
-                        dtModifyDate = stringFile.ModificationTime.ToString(); //GetLastWriteTime(stringFileName);
+                        lFileSize = file.Length;
+                        dtCreateDate = Utility.JavaTicksToDatetime(file.AccessTime).ToString(); //GetCreationTime(stringFileName);
+                        dtModifyDate = Utility.JavaTicksToDatetime(file.ModificationTime).ToString(); //GetLastWriteTime(stringFileName);
 
                         //create listview data
                         lvData[0] = GetPathName(stringFileName);
