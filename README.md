@@ -1,5 +1,7 @@
 # HdfsExplorer.NET
 Winform Hdfs Explorer
+
+
 本项目用于支持 Hadoop 文件查看，暂时只支持一个查看目录及文件的功能。
 
 项目中的 Hadoop Url 及 name password 等，暂时使用的本地的，下一步，将会把它些做为配置项目，
