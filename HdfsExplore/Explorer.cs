@@ -2,7 +2,6 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Management;
 using System.Windows.Forms;
 using Microsoft.Hadoop.WebHDFS;
 
@@ -11,18 +10,8 @@ namespace HdfsExplore
     // Author: Paul Li
     // Create Date: 8/1/2002
 
-    public class Explorer : System.Windows.Forms.Form
+    public partial class Explorer : Form
     {
-        private System.Windows.Forms.Splitter splitter1;
-        private System.Windows.Forms.MainMenu mainMenu1;
-        private System.Windows.Forms.MenuItem menuItem1;
-        private System.Windows.Forms.MenuItem menuItem2;
-        private System.Windows.Forms.MenuItem menuItem3;
-        private System.Windows.Forms.MenuItem menuItem4;
-        private System.Windows.Forms.TreeView tvFolders;
-        private System.Windows.Forms.ListView lvFiles;
-        private System.Windows.Forms.ImageList m_imageListTreeView;
-        private System.ComponentModel.IContainer components;
         private WebHDFSClient client;
 
         public Explorer()
@@ -33,150 +22,21 @@ namespace HdfsExplore
             InitializeComponent();
 
 
-
-
+            if (!CreateClient())
+            {
+                return;
+            }
 
             // Populate TreeView with Drive list
             PopulateDriveList();
         }
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (components != null)
-                {
-                    components.Dispose();
-                }
-            }
-            base.Dispose(disposing);
-        }
-
-        #region Windows Form Designer generated code
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Explorer));
-            this.tvFolders = new System.Windows.Forms.TreeView();
-            this.m_imageListTreeView = new System.Windows.Forms.ImageList(this.components);
-            this.splitter1 = new System.Windows.Forms.Splitter();
-            this.lvFiles = new System.Windows.Forms.ListView();
-            this.mainMenu1 = new System.Windows.Forms.MainMenu(this.components);
-            this.menuItem1 = new System.Windows.Forms.MenuItem();
-            this.menuItem2 = new System.Windows.Forms.MenuItem();
-            this.menuItem3 = new System.Windows.Forms.MenuItem();
-            this.menuItem4 = new System.Windows.Forms.MenuItem();
-            this.SuspendLayout();
-            // 
-            // tvFolders
-            // 
-            this.tvFolders.Dock = System.Windows.Forms.DockStyle.Left;
-            this.tvFolders.ImageIndex = 0;
-            this.tvFolders.ImageList = this.m_imageListTreeView;
-            this.tvFolders.Location = new System.Drawing.Point(0, 0);
-            this.tvFolders.Name = "tvFolders";
-            this.tvFolders.SelectedImageIndex = 2;
-            this.tvFolders.Size = new System.Drawing.Size(202, 357);
-            this.tvFolders.TabIndex = 2;
-            this.tvFolders.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvFolders_AfterSelect);
-            // 
-            // m_imageListTreeView
-            // 
-            this.m_imageListTreeView.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("m_imageListTreeView.ImageStream")));
-            this.m_imageListTreeView.TransparentColor = System.Drawing.Color.Transparent;
-            this.m_imageListTreeView.Images.SetKeyName(0, "");
-            this.m_imageListTreeView.Images.SetKeyName(1, "");
-            this.m_imageListTreeView.Images.SetKeyName(2, "");
-            this.m_imageListTreeView.Images.SetKeyName(3, "");
-            this.m_imageListTreeView.Images.SetKeyName(4, "");
-            this.m_imageListTreeView.Images.SetKeyName(5, "");
-            this.m_imageListTreeView.Images.SetKeyName(6, "");
-            this.m_imageListTreeView.Images.SetKeyName(7, "");
-            this.m_imageListTreeView.Images.SetKeyName(8, "");
-            // 
-            // splitter1
-            // 
-            this.splitter1.Location = new System.Drawing.Point(202, 0);
-            this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 357);
-            this.splitter1.TabIndex = 3;
-            this.splitter1.TabStop = false;
-            // 
-            // lvFiles
-            // 
-            this.lvFiles.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvFiles.Location = new System.Drawing.Point(205, 0);
-            this.lvFiles.Name = "lvFiles";
-            this.lvFiles.Size = new System.Drawing.Size(395, 357);
-            this.lvFiles.TabIndex = 4;
-            this.lvFiles.UseCompatibleStateImageBehavior = false;
-            this.lvFiles.View = System.Windows.Forms.View.Details;
-            // 
-            // mainMenu1
-            // 
-            this.mainMenu1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem1,
-            this.menuItem3});
-            // 
-            // menuItem1
-            // 
-            this.menuItem1.Index = 0;
-            this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem2});
-            this.menuItem1.Text = "&File";
-            // 
-            // menuItem2
-            // 
-            this.menuItem2.Index = 0;
-            this.menuItem2.Text = "&Close";
-            this.menuItem2.Click += new System.EventHandler(this.menuItem2_Click);
-            // 
-            // menuItem3
-            // 
-            this.menuItem3.Index = 1;
-            this.menuItem3.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem4});
-            this.menuItem3.Text = "&Help";
-            // 
-            // menuItem4
-            // 
-            this.menuItem4.Index = 0;
-            this.menuItem4.Text = "&About";
-            // 
-            // Explorer
-            // 
-            this.AutoScaleBaseSize = new System.Drawing.Size(6, 14);
-            this.ClientSize = new System.Drawing.Size(600, 357);
-            this.Controls.Add(this.lvFiles);
-            this.Controls.Add(this.splitter1);
-            this.Controls.Add(this.tvFolders);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Menu = this.mainMenu1;
-            this.Name = "Explorer";
-            this.Text = "My Window Explorer";
-            this.ResumeLayout(false);
-
-        }
-        #endregion
-
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-
-
         //This procedure populate the TreeView with the Drive list
         private async void PopulateDriveList()
         {
             TreeNode nodeTreeNode;
-            int imageIndex = 0;
-            int selectIndex = 0;
+            var imageIndex = 0;
+            var selectIndex = 0;
 
             const int Removable = 2;
             const int LocalDisk = 3;
@@ -184,25 +44,21 @@ namespace HdfsExplore
             const int CD = 5;
             //const int RAMDrive = 6;
 
-            this.Cursor = Cursors.WaitCursor;
+            Cursor = Cursors.WaitCursor;
             //clear TreeView
             tvFolders.Nodes.Clear();
             nodeTreeNode = new TreeNode("Hadoop Root", 0, 0);
             tvFolders.Nodes.Add(nodeTreeNode);
 
             //set node collection
-            TreeNodeCollection nodeCollection = nodeTreeNode.Nodes;
+            var nodeCollection = nodeTreeNode.Nodes;
 
-            //Get Drive list
-            client = new WebHDFSClient(new Uri("http://zhangbaowei:50070"), "hadoop");
 
             var x = await client.GetDirectoryStatus("/");
 
 
-
             foreach (var mo in x.Directories)
             {
-
                 //switch (int.Parse(mo["DriveType"].ToString()))
                 //{
                 //    case Removable:			//removable drives
@@ -235,24 +91,22 @@ namespace HdfsExplore
 
                 //add new node
                 nodeCollection.Add(nodeTreeNode);
-
             }
 
 
             //Init files ListView
             InitListView();
 
-            this.Cursor = Cursors.Default;
-
+            Cursor = Cursors.Default;
         }
 
-        private void tvFolders_AfterSelect(object sender, System.Windows.Forms.TreeViewEventArgs e)
+        private void tvFolders_AfterSelect(object sender, TreeViewEventArgs e)
         {
             //Populate folders and files when a folder is selected
-            this.Cursor = Cursors.WaitCursor;
+            Cursor = Cursors.WaitCursor;
 
             //get current selected drive or folder
-            TreeNode nodeCurrent = e.Node;
+            var nodeCurrent = e.Node;
 
             //clear all sub-folders
             nodeCurrent.Nodes.Clear();
@@ -267,26 +121,31 @@ namespace HdfsExplore
                 //populate sub-folders and folder files
                 PopulateDirectory(nodeCurrent, nodeCurrent.Nodes);
             }
-            this.Cursor = Cursors.Default;
+            Cursor = Cursors.Default;
         }
 
         protected void InitListView()
         {
             //init ListView control
-            lvFiles.Clear();		//clear control
+            lvFiles.Clear(); //clear control
             //create column header for ListView
-            lvFiles.Columns.Add("Name", 150, System.Windows.Forms.HorizontalAlignment.Left);
-            lvFiles.Columns.Add("Size", 75, System.Windows.Forms.HorizontalAlignment.Right);
-            lvFiles.Columns.Add("Access", 140, System.Windows.Forms.HorizontalAlignment.Left);
-            lvFiles.Columns.Add("Modified", 140, System.Windows.Forms.HorizontalAlignment.Left);
+            lvFiles.Columns.Add("Name", 150, HorizontalAlignment.Left);
+            lvFiles.Columns.Add("Size", 75, HorizontalAlignment.Right);
+            lvFiles.Columns.Add("Access", 140, HorizontalAlignment.Left);
+            lvFiles.Columns.Add("Modified", 140, HorizontalAlignment.Left);
+
+
+            lvFiles.Columns.Add("Owner", 75);
+            lvFiles.Columns.Add("Permission", 75);
+
 
         }
 
         protected async void PopulateDirectory(TreeNode nodeCurrent, TreeNodeCollection nodeCurrentCollection)
         {
             TreeNode nodeDir;
-            int imageIndex = 2;		//unselected image index
-            int selectIndex = 3;	//selected image index
+            var imageIndex = 2; //unselected image index
+            var selectIndex = 3; //selected image index
 
             if (nodeCurrent.SelectedImageIndex != 0)
             {
@@ -298,8 +157,6 @@ namespace HdfsExplore
 
                     var dirs = directoryStatus.Directories;
 
-
-
                     //check path
                     //if (!dirs.Any())
                     //{
@@ -310,18 +167,18 @@ namespace HdfsExplore
                     //populate files
                     PopulateFiles(nodeCurrent);
 
-                    string[] stringDirectories = dirs.Select(x => x.PathSuffix).ToArray();
-                    string stringFullPath = "";
-                    string stringPathName = "";
+                    var stringDirectories = dirs.Select(x => x.PathSuffix).ToArray();
+                    var stringFullPath = "";
+                    var stringPathName = "";
 
                     //loop throught all directories
-                    foreach (string stringDir in stringDirectories)
+                    foreach (var stringDir in stringDirectories)
                     {
                         stringFullPath = stringDir;
                         stringPathName = GetPathName(stringFullPath);
 
                         //create node for directories
-                        nodeDir = new TreeNode(stringPathName.ToString(), imageIndex, selectIndex);
+                        nodeDir = new TreeNode(stringPathName, imageIndex, selectIndex);
                         nodeCurrentCollection.Add(nodeDir);
                     }
                     //}
@@ -344,16 +201,15 @@ namespace HdfsExplore
         protected string GetPathName(string stringPath)
         {
             //Get Name of folder
-            string[] stringSplit = stringPath.Split('\\');
-            int _maxIndex = stringSplit.Length;
+            var stringSplit = stringPath.Split('\\');
+            var _maxIndex = stringSplit.Length;
             return stringSplit[_maxIndex - 1];
         }
 
         protected async void PopulateFiles(TreeNode nodeCurrent)
         {
-
             //Populate listview with files
-            string[] lvData = new string[4];
+            var lvData = new string[6];
 
             //clear list
             InitListView();
@@ -362,10 +218,11 @@ namespace HdfsExplore
             {
                 var directoryStatus = await client.GetDirectoryStatus(getFullPath(nodeCurrent.FullPath));
 
+
                 try
                 {
-                    var files = directoryStatus.Files;// Directory.GetFiles(getFullPath(nodeCurrent.FullPath));
-                    string stringFileName = "";
+                    var files = directoryStatus.Files; // Directory.GetFiles(getFullPath(nodeCurrent.FullPath));
+                    var stringFileName = "";
                     string dtCreateDate, dtModifyDate;
                     Int64 lFileSize = 0;
 
@@ -375,8 +232,10 @@ namespace HdfsExplore
                         stringFileName = file.PathSuffix;
                         //FileInfo objFileSize = new FileInfo(stringFileName);
                         lFileSize = file.Length;
-                        dtCreateDate = Utility.JavaTicksToDatetime(file.AccessTime).ToString(); //GetCreationTime(stringFileName);
-                        dtModifyDate = Utility.JavaTicksToDatetime(file.ModificationTime).ToString(); //GetLastWriteTime(stringFileName);
+                        dtCreateDate = Utility.JavaTicksToDatetime(file.AccessTime).ToString();
+                        //GetCreationTime(stringFileName);
+                        dtModifyDate = Utility.JavaTicksToDatetime(file.ModificationTime).ToString();
+                        //GetLastWriteTime(stringFileName);
 
                         //create listview data
                         lvData[0] = GetPathName(stringFileName);
@@ -389,13 +248,12 @@ namespace HdfsExplore
                         //not in day light saving time adjust time
                         lvData[3] = dtModifyDate;
 
-
+                        lvData[4] = file.Owner;
+                        lvData[5] = file.Permission;
 
                         //Create actual list item
-                        ListViewItem lvItem = new ListViewItem(lvData, 0);
+                        var lvItem = new ListViewItem(lvData, 0);
                         lvFiles.Items.Add(lvItem);
-
-
                     }
                 }
                 catch (IOException e)
@@ -417,29 +275,25 @@ namespace HdfsExplore
         protected string getFullPath(string stringPath)
         {
             //Get Full path
-            string stringParse = "";
+            var stringParse = "";
             //remove My Computer from path.
             stringParse = stringPath.Replace("Hadoop Root\\", "/").Replace("\\", "/");
 
             return stringParse;
         }
 
-
-        protected string formatDate(DateTime dtDate)
+        protected string getFullPath(TreeNode nodeCurrent)
         {
-            //Get date and time in short format
-            string stringDate = "";
+            var path = nodeCurrent.FullPath;
 
-            stringDate = dtDate.ToShortDateString().ToString() + " " + dtDate.ToShortTimeString().ToString();
-
-            return stringDate;
+            return getFullPath(path);
         }
 
         protected string formatSize(Int64 lSize)
         {
             //Format number to KB
-            string stringSize = "";
-            NumberFormatInfo myNfi = new NumberFormatInfo();
+            var stringSize = "";
+            var myNfi = new NumberFormatInfo();
 
             Int64 lKBSize = 0;
 
@@ -467,14 +321,112 @@ namespace HdfsExplore
             }
 
             return stringSize + " KB";
-
         }
 
-        private void menuItem2_Click(object sender, System.EventArgs e)
+        private void menuItem2_Click(object sender, EventArgs e)
         {
             //quit application
-            this.Close();
+            Close();
         }
 
+        private void tvFolders_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Button != MouseButtons.Right) return;
+            if (e.Node == null) return;
+
+            //MessageBox.Show(e.Node.FullPath);
+
+            tvFolders.SelectedNode = e.Node;
+
+            InitcmsOneRout();
+
+            cmsOneRout.Show(tvFolders, e.X, e.Y);
+        }
+
+        private void InitcmsOneRout()
+        {
+            cmsOneRout = new ContextMenuStrip();
+
+            var tmiEditRoutStation = new ToolStripMenuItem("修改Owner");
+            //tmiEditRoutStation.Click += new EventHandler(tmiEditRoutStation_Click);
+            cmsOneRout.Items.Add(tmiEditRoutStation);
+            var tmiDel = new ToolStripMenuItem("删除");
+            //tmiMoveRouteStation.Click += new EventHandler(tmiMoveRouteStation_Click);
+            tmiDel.Click += tmiDel_Click;
+            cmsOneRout.Items.Add(tmiDel);
+            var tmiDeleRouteStation = new ToolStripMenuItem("删除飞行站点");
+            //tmiDeleRouteStation.Click += new EventHandler(tmiDeleRouteStation_Click);
+            //cmsOneRout.Items.Add(tmiDeleRouteStation);
+        }
+
+        private void tmiDel_Click(object sender, EventArgs e)
+        {
+            var path = getFullPath(tvFolders.SelectedNode);
+
+            //client = new WebHDFSClient(new Uri("http://zhangbaowei:50070"), "hadoop");
+
+            client.DeleteDirectory(path, true);
+
+            MessageBox.Show("删除完成");
+
+            tvFolders.SelectedNode.Remove();
+        }
+
+        private void menuItem5_Click(object sender, EventArgs e)
+        {
+            var parentPath = "/";
+
+            if (tvFolders.SelectedNode != null)
+            {
+                parentPath = getFullPath(tvFolders.SelectedNode);
+            }
+
+            var name = new InputName();
+
+            if (name.ShowDialog() != DialogResult.OK)
+                return;
+
+
+            var newname = name.StrInput;
+
+
+            client.CreateDirectory(parentPath.TrimEnd('/') + "/" + newname);
+        }
+
+        private void menuItem6_Click(object sender, EventArgs e)
+        {
+            showSetting();
+            PopulateDriveList();
+        }
+
+        private void showSetting()
+        {
+            var setting = new Setting();
+
+            if (setting.ShowDialog() == DialogResult.OK)
+            {
+                CreateClient();
+            }
+        }
+
+        private bool CreateClient()
+        {
+            var url = AppConfig.GetValue("hdfsurl");
+
+            var username = AppConfig.GetValue("username");
+
+
+            if (string.IsNullOrWhiteSpace(url) || string.IsNullOrWhiteSpace(username))
+            {
+                MessageBox.Show("未进行正确配置");
+                showSetting();
+
+                return false;
+            }
+
+            client = new WebHDFSClient(new Uri(url), username);
+
+            return true;
+        }
     }
 }
