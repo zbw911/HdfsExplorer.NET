@@ -348,16 +348,47 @@ namespace HdfsExplore
             cmsOneRout = new ContextMenuStrip();
 
             var tmiEditRoutStation = new ToolStripMenuItem("修改Owner");
-            //tmiEditRoutStation.Click += new EventHandler(tmiEditRoutStation_Click);
             cmsOneRout.Items.Add(tmiEditRoutStation);
+
+            var changePermission = new ToolStripMenuItem("修改权限");
+
+            changePermission.Click += changePress_Click;
+            cmsOneRout.Items.Add(changePermission);
             var tmiDel = new ToolStripMenuItem("删除");
-            //tmiMoveRouteStation.Click += new EventHandler(tmiMoveRouteStation_Click);
+
             tmiDel.Click += tmiDel_Click;
             cmsOneRout.Items.Add(tmiDel);
-            var tmiDeleRouteStation = new ToolStripMenuItem("删除飞行站点");
-            //tmiDeleRouteStation.Click += new EventHandler(tmiDeleRouteStation_Click);
-            //cmsOneRout.Items.Add(tmiDeleRouteStation);
+
         }
+
+        async void changePress_Click(object sender, EventArgs e)
+        {
+            //if (lvFiles.SelectedItems.Count == 0)
+            //    return;
+
+            if (tvFolders.SelectedNode == null)
+                return;
+
+            var remotepath = getFullPath(tvFolders.SelectedNode);
+            //var remotefile = remotepath.TrimEnd('/') + "/" + lvFiles.SelectedItems[0].Text;
+            var permissions = await client.GetFileStatus(remotepath);
+
+            InputName ip = new InputName("修改权限(" + remotepath + ")", permissions.Permission);
+
+            if (ip.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (string.IsNullOrWhiteSpace(ip.StrInput))
+                {
+                    MessageBox.Show("不能为空项");
+                    return;
+                }
+
+                await client.SetPermissions(remotepath, ip.StrInput);
+            }
+        }
+
+
+
 
         private void tmiDel_Click(object sender, EventArgs e)
         {
@@ -497,6 +528,78 @@ namespace HdfsExplore
             {
                 this.lvFiles.SelectedItems.Clear();
                 MessageBox.Show("No Item is selected");
+            }
+        }
+
+        private void lvFiles_MouseClick(object sender, MouseEventArgs e)
+        {
+            //判断鼠标是否右键
+            if (e.Button == MouseButtons.Right)
+            {
+                if (this.lvFiles.SelectedItems.Count > 0)  //选中项
+                {
+
+                    var cmslv = new ContextMenuStrip();
+
+                    var tmiEditRoutStation = new ToolStripMenuItem("权限");
+                    tmiEditRoutStation.Click += tmiEditRoutStation_Click;
+                    cmslv.Items.Add(tmiEditRoutStation);
+
+                    var tmiDelte = new ToolStripMenuItem("删除");
+                    tmiDelte.Click += tmiDelte_Click;
+                    cmslv.Items.Add(tmiDelte);
+
+
+                    cmslv.Show(lvFiles, e.Location);
+                    //this.lvFiles.ContextMenuStrip = cms选中菜单;
+                }
+                else   //未选中项
+                {
+                    //this.lvFiles.ContextMenuStrip = cms未选中菜单;
+                }
+            }
+        }
+
+        async void tmiDelte_Click(object sender, EventArgs e)
+        {
+            if (lvFiles.SelectedItems.Count == 0)
+                return;
+
+            var remotepath = getFullPath(tvFolders.SelectedNode);
+
+
+            foreach (var lvFile in lvFiles.SelectedItems)
+            {
+                var remotefile = remotepath.TrimEnd('/') + "/" + ((ListViewItem)lvFile).Text;
+
+                await client.DeleteDirectory(remotefile);
+
+                lvFiles.Items.Remove((ListViewItem)lvFile);
+            }
+
+
+        }
+
+        async void tmiEditRoutStation_Click(object sender, EventArgs e)
+        {
+            if (lvFiles.SelectedItems.Count == 0)
+                return;
+
+            var remotepath = getFullPath(tvFolders.SelectedNode);
+            var remotefile = remotepath.TrimEnd('/') + "/" + lvFiles.SelectedItems[0].Text;
+
+
+            InputName ip = new InputName("修改权限(" + remotefile + ")");
+
+            if (ip.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (string.IsNullOrWhiteSpace(ip.StrInput))
+                {
+                    MessageBox.Show("不能为空项");
+                    return;
+                }
+
+                await client.SetPermissions(remotefile, ip.StrInput);
             }
         }
     }
