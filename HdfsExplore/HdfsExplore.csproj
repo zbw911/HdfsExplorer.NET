@@ -77,6 +77,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContentViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ContentViewer.Designer.cs">
+      <DependentUpon>ContentViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Explorer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +104,9 @@
       <DependentUpon>Setting.cs</DependentUpon>
     </Compile>
     <Compile Include="Utility.cs" />
+    <EmbeddedResource Include="ContentViewer.resx">
+      <DependentUpon>ContentViewer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Explorer.resx">
       <DependentUpon>Explorer.cs</DependentUpon>
     </EmbeddedResource>

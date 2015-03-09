@@ -457,5 +457,47 @@ namespace HdfsExplore
 
             }
         }
+
+        private void menuItem8_Click(object sender, EventArgs e)
+        {
+            var items = lvFiles.SelectedItems;
+            var remotepath = getFullPath(tvFolders.SelectedNode);
+            foreach (var item in items)
+            {
+
+
+                var filename = ((ListViewItem)item).Text;
+
+                client.DeleteDirectory(remotepath.TrimEnd('/') + "/" + filename);
+            }
+        }
+
+        private async void lvFiles_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            ListViewHitTestInfo info = lvFiles.HitTest(e.X, e.Y);
+            ListViewItem item = info.Item;
+
+            if (item != null)
+            {
+                //MessageBox.Show("The selected Item Name is: " + item.Text);
+
+
+                var remotepath = getFullPath(tvFolders.SelectedNode);
+                var remotefile = remotepath.TrimEnd('/') + "/" + item.Text;
+                var message = await client.OpenFile(remotefile);
+
+                var content = await message.Content.ReadAsStringAsync();
+
+
+                ContentViewer cv = new ContentViewer(content, remotefile);
+                cv.Show();
+
+            }
+            else
+            {
+                this.lvFiles.SelectedItems.Clear();
+                MessageBox.Show("No Item is selected");
+            }
+        }
     }
 }

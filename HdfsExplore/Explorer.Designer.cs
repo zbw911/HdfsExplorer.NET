@@ -66,6 +66,7 @@ namespace HdfsExplore
             this.menuItem5 = new System.Windows.Forms.MenuItem();
             this.menuItem6 = new System.Windows.Forms.MenuItem();
             this.menuItem7 = new System.Windows.Forms.MenuItem();
+            this.menuItem8 = new System.Windows.Forms.MenuItem();
             this.SuspendLayout();
             // 
             // tvFolders
@@ -76,7 +77,7 @@ namespace HdfsExplore
             this.tvFolders.Location = new System.Drawing.Point(0, 0);
             this.tvFolders.Name = "tvFolders";
             this.tvFolders.SelectedImageIndex = 2;
-            this.tvFolders.Size = new System.Drawing.Size(202, 357);
+            this.tvFolders.Size = new System.Drawing.Size(202, 524);
             this.tvFolders.TabIndex = 2;
             this.tvFolders.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvFolders_AfterSelect);
             this.tvFolders.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvFolders_NodeMouseClick);
@@ -99,7 +100,7 @@ namespace HdfsExplore
             // 
             this.splitter1.Location = new System.Drawing.Point(202, 0);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 357);
+            this.splitter1.Size = new System.Drawing.Size(3, 524);
             this.splitter1.TabIndex = 3;
             this.splitter1.TabStop = false;
             // 
@@ -108,10 +109,11 @@ namespace HdfsExplore
             this.lvFiles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvFiles.Location = new System.Drawing.Point(205, 0);
             this.lvFiles.Name = "lvFiles";
-            this.lvFiles.Size = new System.Drawing.Size(395, 357);
+            this.lvFiles.Size = new System.Drawing.Size(585, 524);
             this.lvFiles.TabIndex = 4;
             this.lvFiles.UseCompatibleStateImageBehavior = false;
             this.lvFiles.View = System.Windows.Forms.View.Details;
+            this.lvFiles.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lvFiles_MouseDoubleClick);
             // 
             // mainMenu1
             // 
@@ -120,7 +122,8 @@ namespace HdfsExplore
             this.menuItem3,
             this.menuItem5,
             this.menuItem6,
-            this.menuItem7});
+            this.menuItem7,
+            this.menuItem8});
             // 
             // menuItem1
             // 
@@ -165,10 +168,16 @@ namespace HdfsExplore
             this.menuItem7.Text = "UploadFile";
             this.menuItem7.Click += new System.EventHandler(this.menuItem7_Click);
             // 
+            // menuItem8
+            // 
+            this.menuItem8.Index = 5;
+            this.menuItem8.Text = "DelFile";
+            this.menuItem8.Click += new System.EventHandler(this.menuItem8_Click);
+            // 
             // Explorer
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(6, 14);
-            this.ClientSize = new System.Drawing.Size(600, 357);
+            this.ClientSize = new System.Drawing.Size(790, 524);
             this.Controls.Add(this.lvFiles);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.tvFolders);
@@ -182,6 +191,7 @@ namespace HdfsExplore
         #endregion
 
         private MenuItem menuItem7;
+        private MenuItem menuItem8;
 
         
 
