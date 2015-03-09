@@ -37,17 +37,19 @@
             this.textBox1.Location = new System.Drawing.Point(0, 0);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBox1.Size = new System.Drawing.Size(701, 646);
             this.textBox1.TabIndex = 0;
+            this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
             // 
-            // ContentViewr
+            // ContentViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(701, 646);
             this.Controls.Add(this.textBox1);
-            this.Name = "ContentViewr";
+            this.Name = "ContentViewer";
             this.Text = "ContentViewr";
             this.Load += new System.EventHandler(this.ContentViewr_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ContentViewr_KeyDown);

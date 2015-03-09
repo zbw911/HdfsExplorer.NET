@@ -26,9 +26,17 @@ namespace HdfsExplore
         {
             this.textBox1.Text = _content;
             this.Text = _title;
+
+            this.Focus();
         }
 
         private void ContentViewr_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+                Close();
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
                 Close();
