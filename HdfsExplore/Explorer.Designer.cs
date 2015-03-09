@@ -65,6 +65,7 @@ namespace HdfsExplore
             this.menuItem4 = new System.Windows.Forms.MenuItem();
             this.menuItem5 = new System.Windows.Forms.MenuItem();
             this.menuItem6 = new System.Windows.Forms.MenuItem();
+            this.menuItem7 = new System.Windows.Forms.MenuItem();
             this.SuspendLayout();
             // 
             // tvFolders
@@ -118,7 +119,8 @@ namespace HdfsExplore
             this.menuItem1,
             this.menuItem3,
             this.menuItem5,
-            this.menuItem6});
+            this.menuItem6,
+            this.menuItem7});
             // 
             // menuItem1
             // 
@@ -157,6 +159,12 @@ namespace HdfsExplore
             this.menuItem6.Text = "Setting";
             this.menuItem6.Click += new System.EventHandler(this.menuItem6_Click);
             // 
+            // menuItem7
+            // 
+            this.menuItem7.Index = 4;
+            this.menuItem7.Text = "UploadFile";
+            this.menuItem7.Click += new System.EventHandler(this.menuItem7_Click);
+            // 
             // Explorer
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(6, 14);
@@ -172,6 +180,8 @@ namespace HdfsExplore
 
         }
         #endregion
+
+        private MenuItem menuItem7;
 
         
 

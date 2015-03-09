@@ -428,5 +428,34 @@ namespace HdfsExplore
 
             return true;
         }
+
+        private void menuItem7_Click(object sender, EventArgs e)
+        {
+            if (tvFolders.SelectedNode == null)
+            {
+                MessageBox.Show("未选中上传目标");
+                return;
+            }
+
+            OpenFileDialog of = new OpenFileDialog();
+            of.Multiselect = true;
+
+            if (of.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+
+                var remotepath = getFullPath(tvFolders.SelectedNode);
+
+
+                var filename = of.FileNames;
+
+                foreach (var s in filename)
+                {
+                    client.CreateFile(s, remotepath.TrimEnd('/') + "/" + Path.GetFileName(s));
+                }
+
+                PopulateFiles(tvFolders.SelectedNode);
+
+            }
+        }
     }
 }
