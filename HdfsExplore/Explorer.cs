@@ -550,6 +550,11 @@ namespace HdfsExplore
                     cmslv.Items.Add(tmiDelte);
 
 
+                    var downloadFile = new ToolStripMenuItem("下载");
+                    downloadFile.Click += downloadFile_Click;
+                    cmslv.Items.Add(downloadFile);
+
+
                     cmslv.Show(lvFiles, e.Location);
                     //this.lvFiles.ContextMenuStrip = cms选中菜单;
                 }
@@ -558,6 +563,42 @@ namespace HdfsExplore
                     //this.lvFiles.ContextMenuStrip = cms未选中菜单;
                 }
             }
+        }
+
+        async void downloadFile_Click(object sender, EventArgs e)
+        {
+            if (lvFiles.SelectedItems.Count == 0)
+                return;
+
+            var remotepath = getFullPath(tvFolders.SelectedNode);
+
+
+            var filefolder = new FolderBrowserDialog();
+
+            if (filefolder.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                return;
+
+            var locafolder = filefolder.SelectedPath;
+
+
+            foreach (var lvFile in lvFiles.SelectedItems)
+            {
+                var removefilename = ((ListViewItem)lvFile).Text;
+                var remotefile = remotepath.TrimEnd('/') + "/" + removefilename;
+
+                var file = await client.OpenFile(remotefile);
+
+                var filebytes = await file.Content.ReadAsByteArrayAsync();
+
+                var locafile = locafolder + "/" + removefilename;
+
+                System.IO.File.WriteAllBytes(locafile, filebytes);
+                //lvFiles.Items.Remove((ListViewItem)lvFile);
+
+
+            }
+
+            MessageBox.Show("下载成功");
         }
 
         async void tmiDelte_Click(object sender, EventArgs e)
