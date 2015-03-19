@@ -24,7 +24,7 @@ namespace HdfsExplore
 
         private void ContentViewr_Load(object sender, EventArgs e)
         {
-            this.textBox1.Text = _content;
+            this.textBox1.Text = (_content ?? "").Replace("\r\n", "\n").Replace("\n", Environment.NewLine); ;
             this.Text = _title;
 
             this.Focus();
